@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation.xml">
+
+    <fragment
+        android:id="@+id/nav_bar_home"
+        android:name="com.example.fitfeed.HomeFragment"
+        android:label="@string/home_nav_bar_title"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_bar_workouts"
+        android:name="com.example.fitfeed.WorkoutsFragment"
+        android:label="@string/workouts_nav_bar_title"
+        tools:layout="@layout/fragment_workouts" />
+    <fragment
+        android:id="@+id/nav_bar_social"
+        android:name="com.example.fitfeed.SocialFragment"
+        android:label="@string/social_nav_bar_title"
+        tools:layout="@layout/fragment_social" />
+
+</navigation>
