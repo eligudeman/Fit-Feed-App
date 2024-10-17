@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -70,6 +74,29 @@ public class SocialFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.social_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.socialMenuAddFriends: {
+                Intent intent = new Intent(getContext(), FriendsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.socialMenuNewPost: {
+                // todo new post activity
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -82,11 +109,6 @@ public class SocialFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addFriendsButton = getView().findViewById(R.id.addFriendsButton);
-        addFriendsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), FriendsActivity.class);
-            startActivity(intent);
-        });
 
         // TODO implement actual posts instead of placeholder values
         ArrayList<String> postText = new ArrayList<>();

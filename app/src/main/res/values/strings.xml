@@ -8,6 +8,7 @@
     <string name="workouts_nav_bar_title">Workouts [WIP]</string>
     <string name="social_nav_bar_title">Social</string>
     <string name="add_friends_title">Enter friend\'s username:</string>
+    <string name="new_post_button">New Post</string>
     <string name="search_button">Search</string>
     <string name="add_friends_button">Add Friends</string>
     <string name="post_placeholder">Your friend made a post!</string>
