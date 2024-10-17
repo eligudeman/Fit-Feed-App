@@ -1,4 +1,4 @@
-package com.example.fitfeed;
+package com.example.fitfeed.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fitfeed.R;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class FriendsSearchRecyclerViewAdapter extends RecyclerView.Adapter<Frien
     private List<String> data;
     private LayoutInflater inflater;
 
-    FriendsSearchRecyclerViewAdapter(Context context, List<String> data) {
+    public FriendsSearchRecyclerViewAdapter(Context context, List<String> data) {
         this.inflater = LayoutInflater.from(context);
         this.data = data;
     }

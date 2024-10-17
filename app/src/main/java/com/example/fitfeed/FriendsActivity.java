@@ -10,6 +10,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fitfeed.adapters.FriendsSearchRecyclerViewAdapter;
+
 import java.util.ArrayList;
 
 public class FriendsActivity extends AppCompatActivity {

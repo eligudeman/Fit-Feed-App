@@ -6,17 +6,17 @@
 
     <fragment
         android:id="@+id/nav_bar_home"
-        android:name="com.example.fitfeed.HomeFragment"
+        android:name="com.example.fitfeed.fragments.HomeFragment"
         android:label="@string/home_nav_bar_title"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_bar_workouts"
-        android:name="com.example.fitfeed.WorkoutsFragment"
+        android:name="com.example.fitfeed.fragments.WorkoutsFragment"
         android:label="@string/workouts_nav_bar_title"
         tools:layout="@layout/fragment_workouts" />
     <fragment
         android:id="@+id/nav_bar_social"
-        android:name="com.example.fitfeed.SocialFragment"
+        android:name="com.example.fitfeed.fragments.SocialFragment"
         android:label="@string/social_nav_bar_title"
         tools:layout="@layout/fragment_social" />
 

@@ -1,4 +1,4 @@
-package com.example.fitfeed;
+package com.example.fitfeed.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fitfeed.R;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class PostsRecyclerViewAdapter extends RecyclerView.Adapter<PostsRecycler
     private List<Drawable> drawables;
     private LayoutInflater inflater;
 
-    PostsRecyclerViewAdapter(Context context, List<String> data, List<Drawable> drawables) {
+    public PostsRecyclerViewAdapter(Context context, List<String> data, List<Drawable> drawables) {
         this.inflater = LayoutInflater.from(context);
         this.data = data;
         this.drawables = drawables;
