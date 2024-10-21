@@ -69,6 +69,11 @@ public class CameraActivity extends AppCompatActivity {
         return File.createTempFile(filename, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
     }
 
+    private void bitmapFromImageFile() {
+        Bitmap image = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        imageView.setImageBitmap(image);
+    }
+
 
     /**
      * On click listener for Take Picture button.
@@ -99,8 +104,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // called after returning from camera application, check request and result codes for success
         if (requestCode == REQUEST_CODE && resultCode == CameraActivity.RESULT_OK) {
-            Bitmap image = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            imageView.setImageBitmap(image);
+            bitmapFromImageFile();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -110,7 +114,6 @@ public class CameraActivity extends AppCompatActivity {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         // save file and bitmap to bundle
         outState.putString("cameraActivityCachedImageFilename", imageFile.getAbsolutePath());
-        outState.putParcelable("cameraActivityCachedImage", BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
         super.onSaveInstanceState(outState);
     }
 
@@ -118,19 +121,14 @@ public class CameraActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        // reload file from bundle
+        // reload file from bundle and set bitmap if exists
         String restoredFilename = savedInstanceState.getString("cameraActivityCachedImageFilename");
         if (restoredFilename != null) {
             File restoredFile = new File(restoredFilename);
             if (restoredFile.exists()) {
                 imageFile = new File(restoredFilename);
+                bitmapFromImageFile();
             }
-        }
-
-        // reload bitmap from bundle and set image
-        Bitmap imageBitmap = savedInstanceState.getParcelable("cameraActivityCachedImage");
-        if (imageBitmap != null) {
-            imageView.setImageBitmap(imageBitmap);
         }
     }
 }
