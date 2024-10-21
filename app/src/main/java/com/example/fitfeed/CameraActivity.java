@@ -44,11 +44,16 @@ public class CameraActivity extends AppCompatActivity {
             return insets;
         });
 
+        // find take picture button and set listener
         Button takePictureButton = findViewById(R.id.cameraActivityTakePictureButton);
         takePictureButton.setOnClickListener(this::openCamera);
 
+        // find image view
         imageView = findViewById(R.id.cameraActivityImageView);
+
+        // handle image file creation if needed
         if (imageFile == null) {
+            // check for file system permissions and handle error gracefully
             try {
                 imageFile = getImageFile(FILENAME);
                 fileError = false;
@@ -56,23 +61,30 @@ public class CameraActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.camera_file_error), Toast.LENGTH_SHORT).show();
                 fileError = true;
             }
-        } else {
-            Bitmap image = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            imageView.setImageBitmap(image);
         }
     }
+
 
     private File getImageFile(String filename) throws IOException {
         return File.createTempFile(filename, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
     }
 
+
+    /**
+     * On click listener for Take Picture button.
+     * @param view context of click event.
+     */
     public void openCamera(View view) {
+        // don't attempt to take picture if file permissions arent granted
         if (!fileError) {
+            // intent targets system camera application
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+            // use file provider to allow for higher resolution images
             Uri fileProvider = FileProvider.getUriForFile(this, "com.example.fitfeed.fileprovider", imageFile);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
+            // handle errors opening camera (no permissions, no camera)
             if (cameraIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(cameraIntent, REQUEST_CODE);
             } else {
@@ -85,6 +97,7 @@ public class CameraActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // called after returning from camera application, check request and result codes for success
         if (requestCode == REQUEST_CODE && resultCode == CameraActivity.RESULT_OK) {
             Bitmap image = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
             imageView.setImageBitmap(image);
@@ -95,6 +108,7 @@ public class CameraActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        // save file and bitmap to bundle
         outState.putString("cameraActivityCachedImageFilename", imageFile.getAbsolutePath());
         outState.putParcelable("cameraActivityCachedImage", BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
         super.onSaveInstanceState(outState);
@@ -103,6 +117,8 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
+        // reload file from bundle
         String restoredFilename = savedInstanceState.getString("cameraActivityCachedImageFilename");
         if (restoredFilename != null) {
             File restoredFile = new File(restoredFilename);
@@ -111,6 +127,7 @@ public class CameraActivity extends AppCompatActivity {
             }
         }
 
+        // reload bitmap from bundle and set image
         Bitmap imageBitmap = savedInstanceState.getParcelable("cameraActivityCachedImage");
         if (imageBitmap != null) {
             imageView.setImageBitmap(imageBitmap);
