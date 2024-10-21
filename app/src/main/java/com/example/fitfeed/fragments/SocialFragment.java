@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fitfeed.CameraActivity;
 import com.example.fitfeed.FriendsActivity;
 import com.example.fitfeed.R;
 import com.example.fitfeed.adapters.PostsRecyclerViewAdapter;
@@ -67,6 +68,7 @@ public class SocialFragment extends Fragment {
         return fragment;
     }
 
+    /** @noinspection deprecation*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,11 +79,13 @@ public class SocialFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    /** @noinspection deprecation*/
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.social_menu, menu);
     }
 
+    /** @noinspection deprecation*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -91,7 +95,8 @@ public class SocialFragment extends Fragment {
                 return true;
             }
             case R.id.socialMenuNewPost: {
-                // todo new post activity
+                Intent intent = new Intent(getContext(), CameraActivity.class);
+                startActivity(intent);
                 return true;
             }
             default:
