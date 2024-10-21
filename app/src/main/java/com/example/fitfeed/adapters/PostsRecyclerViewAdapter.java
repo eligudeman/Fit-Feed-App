@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitfeed.R;
+import com.example.fitfeed.common.Post;
 
 import java.util.List;
 
@@ -19,14 +20,12 @@ import java.util.List;
  */
 public class PostsRecyclerViewAdapter extends RecyclerView.Adapter<PostsRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> data;
-    private List<Drawable> drawables;
+    private List<Post> posts;
     private LayoutInflater inflater;
 
-    public PostsRecyclerViewAdapter(Context context, List<String> data, List<Drawable> drawables) {
+    public PostsRecyclerViewAdapter(Context context, List<Post> posts) {
         this.inflater = LayoutInflater.from(context);
-        this.data = data;
-        this.drawables = drawables;
+        this.posts = posts;
     }
 
     @Override
@@ -38,13 +37,13 @@ public class PostsRecyclerViewAdapter extends RecyclerView.Adapter<PostsRecycler
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // set text and drawable for each post
-        holder.textView.setText(data.get(position));
-        holder.imageView.setImageDrawable(drawables.get(position));
+        holder.textView.setText(posts.get(position).getPostText());
+        holder.imageView.setImageDrawable(posts.get(position).getPostDrawable());
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return posts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

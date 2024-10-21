@@ -23,9 +23,11 @@ import com.example.fitfeed.CameraActivity;
 import com.example.fitfeed.FriendsActivity;
 import com.example.fitfeed.R;
 import com.example.fitfeed.adapters.PostsRecyclerViewAdapter;
+import com.example.fitfeed.common.Post;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,22 +118,14 @@ public class SocialFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // TODO implement actual posts instead of placeholder values
-        ArrayList<String> postText = new ArrayList<>();
-        postText.add("Your friend just hit a PB in a set!");
-        postText.add("You became friends with Josh!");
-        postText.add("Josh shared his new workout plan with you");
+        if (postsRecyclerViewAdapter == null) {
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewPosts);
 
-        ArrayList<Drawable> postDrawable = new ArrayList<>();
-        postDrawable.add(ResourcesCompat.getDrawable(getResources(), R.drawable.placeholder1, null));
-        postDrawable.add(ResourcesCompat.getDrawable(getResources(), R.drawable.placeholder2, null));
-        postDrawable.add(ResourcesCompat.getDrawable(getResources(), R.drawable.placeholder3, null));
-
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewPosts);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        postsRecyclerViewAdapter = new PostsRecyclerViewAdapter(view.getContext(), postText, postDrawable);
-        recyclerView.setAdapter(postsRecyclerViewAdapter);
-        recyclerView.setSaveEnabled(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            postsRecyclerViewAdapter = new PostsRecyclerViewAdapter(view.getContext(), createPlaceholderPosts());
+            recyclerView.setAdapter(postsRecyclerViewAdapter);
+            recyclerView.setSaveEnabled(true);
+        }
 
         // set up the RecyclerView
 //        if (savedInstanceState == null) {
@@ -146,6 +140,31 @@ public class SocialFragment extends Fragment {
 ////                stateList = null;
 ////            }
 //        }
+    }
+
+    private List<Post> createPlaceholderPosts() {
+        Post post1 = new Post(
+                "Your friend just hit a PB in a set!",
+                "holtster2000",
+                ResourcesCompat.getDrawable(getResources(), R.drawable.placeholder1, null)
+        );
+        Post post2 = new Post(
+                "You became friends with Josh!",
+                "holtster2000",
+                ResourcesCompat.getDrawable(getResources(), R.drawable.placeholder2, null)
+        );
+        Post post3 = new Post(
+                "Josh shared his new workout plan with you",
+                "holtster2000",
+                ResourcesCompat.getDrawable(getResources(), R.drawable.placeholder3, null)
+        );
+
+        ArrayList<Post> list = new ArrayList<Post>();
+        list.add(post1);
+        list.add(post2);
+        list.add(post3);
+
+        return list;
     }
 
 //    @Override
