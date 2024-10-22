@@ -14,6 +14,7 @@ import java.util.List;
  * RecyclerViewAdapter for FriendActivity's user search results.
  */
 public class FriendsSearchRecyclerViewAdapter extends RecyclerView.Adapter<FriendsSearchRecyclerViewAdapter.ViewHolder> {
+
     private List<String> data;
     private LayoutInflater inflater;
 
@@ -30,13 +31,17 @@ public class FriendsSearchRecyclerViewAdapter extends RecyclerView.Adapter<Frien
 
     @Override
     public void onBindViewHolder(FriendsSearchRecyclerViewAdapter.ViewHolder holder, int position) {
-        // set text for each user result
         holder.textView.setText(data.get(position));
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void updateData(List<String> newData) {
+        this.data = newData;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
