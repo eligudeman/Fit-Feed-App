@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +15,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class LoginActivity extends AppCompatActivity {
-
-    // TODO Not used currently since login is not implemented
-    private String username;
-    private String password;
-    private boolean rememberMe;
 
     private EditText usernameEditText;
     private EditText passwordEditText;
@@ -41,11 +37,35 @@ public class LoginActivity extends AppCompatActivity {
         rememberMeCheckBox = findViewById(R.id.checkBox);
         loginButton = findViewById(R.id.buttonLogin);
 
-        loginButton.setOnClickListener(this::goToHome);
+        loginButton.setOnClickListener(this::attemptLogin);
+    }
+
+    private void attemptLogin(View view) {
+        String username = usernameEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            // Display error messages on empty fields
+            if (username.isEmpty()) {
+                usernameEditText.setError("Username is required");
+            }
+            if (password.isEmpty()) {
+                passwordEditText.setError("Password is required");
+            }
+            Toast.makeText(this, "Please enter both username and password", Toast.LENGTH_SHORT).show();
+        } else {
+            goToHome(view);
+        }
     }
 
     public void goToHome(View view) {
-        skipLogin(); // TODO only skip login if remember me checked
+        if (rememberMeCheckBox.isChecked()) {
+            skipLogin();
+        } else {
+            // Proceed to home even without remember me, or handle as needed
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void skipLogin() {
