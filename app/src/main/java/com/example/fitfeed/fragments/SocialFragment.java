@@ -112,6 +112,7 @@ public class SocialFragment extends Fragment {
                     if (!newPost.getPostUser().isEmpty() || !newPost.getPostText().isEmpty() || newPost.getPostDrawable() != null) {
                         postsRecyclerViewAdapter.addPost(newPost);
                         posts = postsRecyclerViewAdapter.getPosts();
+                        postsLayoutManager.scrollToPositionWithOffset(0, 0);
                     }
                 }
             }
