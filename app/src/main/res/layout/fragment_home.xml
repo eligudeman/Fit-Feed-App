@@ -8,7 +8,6 @@
     tools:context=".fragments.HomeFragment">
 
     <TextView
-        android:id="@+id/homeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

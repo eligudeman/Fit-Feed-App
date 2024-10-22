@@ -21,4 +21,5 @@
     <string name="camera_file_error">Error! Requires external file permissions to take pictures.</string>
     <string name="post_text_hint">Enter text for post…</string>
     <string name="camera_activity_image_content_description">Image to be added to post.</string>
+    <string name="app_logo_description">App Logo image</string>
 </resources>

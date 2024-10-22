@@ -1,5 +1,6 @@
 package com.example.fitfeed.common;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -88,6 +89,7 @@ public class Post implements Parcelable {
      * @implNote If the file is invalid or the {@link Drawable} failed to create, {@link #postFilename} is not set.
      * @param postFilename {@link String} filename of the image or resource for the post.
      */
+    @SuppressLint("DiscouragedApi")
     public void setPostFilename(String postFilename) {
         if (postFilename != null) {
             // Attempt to create drawable for post.
