@@ -47,6 +47,8 @@ dependencies {
     // Testing Navigation
     androidTestImplementation(libs.navigation.testing)
 
+    implementation(libs.gson)
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

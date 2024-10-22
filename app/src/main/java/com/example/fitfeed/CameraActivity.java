@@ -1,15 +1,16 @@
 package com.example.fitfeed;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,6 +23,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.fitfeed.common.Post;
+import com.example.fitfeed.fragments.SocialFragment;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -32,6 +36,8 @@ public class CameraActivity extends AppCompatActivity {
     private File imageFile;
     private ImageView imageView;
     private boolean fileError;
+
+    public static final int RESULT_OK = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +54,15 @@ public class CameraActivity extends AppCompatActivity {
         Button takePictureButton = findViewById(R.id.cameraActivityTakePictureButton);
         takePictureButton.setOnClickListener(this::openCamera);
 
+        // find take picture button and set listener
+        Button postButton = findViewById(R.id.cameraActivityPostButton);
+        postButton.setOnClickListener(this::savePost);
+
         // find image view
         imageView = findViewById(R.id.cameraActivityImageView);
+        if (imageView.getTag() == null) {
+            imageView.setTag(R.drawable.ic_launcher_foreground);
+        }
 
         // handle image file creation if needed
         if (imageFile == null) {
@@ -72,6 +85,7 @@ public class CameraActivity extends AppCompatActivity {
     private void bitmapFromImageFile() {
         Bitmap image = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
         imageView.setImageBitmap(image);
+        imageView.setTag(imageFile.hashCode());
     }
 
 
@@ -79,7 +93,7 @@ public class CameraActivity extends AppCompatActivity {
      * On click listener for Take Picture button.
      * @param view context of click event.
      */
-    public void openCamera(View view) {
+    private void openCamera(View view) {
         // don't attempt to take picture if file permissions arent granted
         if (!fileError) {
             // intent targets system camera application
@@ -100,10 +114,25 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * On click listener for Post button.
+     * @param view context of click event.
+     */
+    private void savePost(View view) {
+        Intent postIntent = new Intent(view.getContext(), SocialFragment.class);
+        EditText editText = findViewById(R.id.cameraActivityEditText);
+        String filename = ((Integer) imageView.getTag() != R.drawable.ic_launcher_foreground) ? imageFile.getAbsolutePath() : null;
+
+        postIntent.putExtra("post", new Post(editText.getText().toString(), "holtster2000", filename));
+
+        setResult(CameraActivity.RESULT_OK, postIntent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // called after returning from camera application, check request and result codes for success
-        if (requestCode == REQUEST_CODE && resultCode == CameraActivity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             bitmapFromImageFile();
         } else {
             super.onActivityResult(requestCode, resultCode, data);

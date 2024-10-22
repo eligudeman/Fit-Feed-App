@@ -78,17 +78,18 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@color/blue"
+            android:contentDescription="@string/camera_activity_image_content_description"
             android:outlineProvider="none"
             android:padding="3dp"
             android:scaleType="fitStart"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine"
+            app:layout_constraintTop_toBottomOf="@+id/cameraActivityEditText"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/cameraActivityEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -98,6 +99,7 @@
             android:gravity="start|top"
             android:hint="@string/post_text_hint"
             android:inputType="textMultiLine"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

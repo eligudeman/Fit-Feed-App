@@ -1,18 +1,19 @@
 package com.example.fitfeed.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitfeed.R;
 import com.example.fitfeed.common.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,16 +21,39 @@ import java.util.List;
  */
 public class PostsRecyclerViewAdapter extends RecyclerView.Adapter<PostsRecyclerViewAdapter.ViewHolder> {
 
-    private List<Post> posts;
-    private LayoutInflater inflater;
+    private ArrayList<Post> posts;
+    private final LayoutInflater inflater;
 
     public PostsRecyclerViewAdapter(Context context, List<Post> posts) {
         this.inflater = LayoutInflater.from(context);
-        this.posts = posts;
+        this.posts = (ArrayList<Post>) posts;
     }
 
+    public void restorePostsState(List<Post> posts) {
+        int oldSize = this.posts.size();
+        this.posts = new ArrayList<>();
+        notifyItemRangeRemoved(0, oldSize);
+        this.posts.addAll(posts);
+        notifyItemRangeInserted(0, this.posts.size());
+    }
+
+    public void addPosts(List<Post> posts) {
+        this.posts.addAll(0, posts);
+        notifyItemRangeInserted(0, posts.size());
+    }
+
+    public void addPost(Post post) {
+        this.posts.add(0, post);
+        notifyItemInserted(0);
+    }
+
+    public ArrayList<Post> getPosts() {
+        return this.posts;
+    }
+
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.recycler_row_post, parent, false);
         return new ViewHolder(view);
     }
@@ -46,7 +70,7 @@ public class PostsRecyclerViewAdapter extends RecyclerView.Adapter<PostsRecycler
         return posts.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         ImageView imageView;
 
