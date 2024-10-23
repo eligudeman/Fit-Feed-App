@@ -61,6 +61,15 @@ public class SocialFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Request permissions if needed
+        if (!hasCameraPermissions()) {
+            requestPermissions(new String[]{
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO
+            }, REQUEST_CAMERA_PERMISSION);
+        }
+
         // Initialize the buttons
         addFriendsButton = getView().findViewById(R.id.addFriendsButton);
         cameraButton = getView().findViewById(R.id.cameraButton);
@@ -170,7 +179,16 @@ public class SocialFragment extends Fragment {
                         "com.example.fitfeed.fileprovider",
                         videoFile
                 );
+
+                // Set the output file for the video
                 takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoURI);
+
+                // Set the video quality (0 for low quality, 1 for high quality)
+                takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+                // Ensure the intent is configured to include audio recording
+                takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60); // optional, limit to 60 seconds
+
                 startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
             }
         } else {
