@@ -1,9 +1,13 @@
 package com.example.fitfeed;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -104,9 +108,14 @@ public class CameraActivity extends AppCompatActivity {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
             // handle errors opening camera (no permissions, no camera)
-            if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(cameraIntent, REQUEST_CODE);
-            } else {
+            try {
+                int numCameras = ((CameraManager)getSystemService(Context.CAMERA_SERVICE)).getCameraIdList().length;
+                if (cameraIntent.resolveActivity(getPackageManager()) != null && numCameras > 0) {
+                    startActivityForResult(cameraIntent, REQUEST_CODE);
+                } else {
+                    Toast.makeText(this, getString(R.string.camera_error), Toast.LENGTH_SHORT).show();
+                }
+            } catch (CameraAccessException e) {
                 Toast.makeText(this, getString(R.string.camera_error), Toast.LENGTH_SHORT).show();
             }
         } else {
