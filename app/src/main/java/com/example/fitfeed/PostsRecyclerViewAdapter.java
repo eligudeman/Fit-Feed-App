@@ -2,57 +2,74 @@ package com.example.fitfeed;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.VideoView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fitfeed.R;
+import com.example.fitfeed.model.PostItem;
+
 import java.util.List;
 
-/**
- * RecyclerViewAdapter for Social tab's feed.
- */
 public class PostsRecyclerViewAdapter extends RecyclerView.Adapter<PostsRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> data;
-    private List<Drawable> drawables;
-    private LayoutInflater inflater;
+    private List<PostItem> postItems;
+    private LayoutInflater mInflater;
 
-    PostsRecyclerViewAdapter(Context context, List<String> data, List<Drawable> drawables) {
-        this.inflater = LayoutInflater.from(context);
-        this.data = data;
-        this.drawables = drawables;
+    // data is passed into the constructor
+    public PostsRecyclerViewAdapter(Context context, List<PostItem> postItems) {
+        this.mInflater = LayoutInflater.from(context);
+        this.postItems = postItems;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.recycler_row_post, parent, false);
+    public PostsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.post_item_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // set text and drawable for each post
-        holder.textView.setText(data.get(position));
-        holder.imageView.setImageDrawable(drawables.get(position));
+    public void onBindViewHolder(PostsRecyclerViewAdapter.ViewHolder holder, int position) {
+        PostItem item = postItems.get(position);
+        holder.postText.setText(item.getText());
+
+        if (item.getImage() != null) {
+            holder.imageView.setVisibility(View.VISIBLE);
+            holder.videoView.setVisibility(View.GONE);
+            holder.imageView.setImageDrawable(item.getImage());
+        } else if (item.getVideoUri() != null) {
+            holder.imageView.setVisibility(View.GONE);
+            holder.videoView.setVisibility(View.VISIBLE);
+            holder.videoView.setVideoURI(item.getVideoUri());
+            holder.videoView.seekTo(1); // Show a preview frame
+        } else {
+            holder.imageView.setVisibility(View.GONE);
+            holder.videoView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return postItems.size();
     }
 
+    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView postText;
         ImageView imageView;
+        VideoView videoView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.postTextView);
-            imageView = itemView.findViewById(R.id.postImageView);
+            postText = itemView.findViewById(R.id.postText);
+            imageView = itemView.findViewById(R.id.postImage);
+            videoView = itemView.findViewById(R.id.postVideo);
         }
     }
 }
